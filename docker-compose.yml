@@ -1,0 +1,31 @@
+# Values come from the shell or a root .env file (see .env.example).
+# Without ANTHROPIC_API_KEY the backend runs the scripted demo model.
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      HR_AGENT_MODEL: ${HR_AGENT_MODEL:-claude-opus-5-5}
+      HR_AGENT_EFFORT: ${HR_AGENT_EFFORT:-medium}
+      HR_AGENT_MAX_STEPS: ${HR_AGENT_MAX_STEPS:-6}
+      HR_TODAY: ${HR_TODAY:-}
+      HR_FAKE_LLM: ${HR_FAKE_LLM:-}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
+      DATABASE_URL: sqlite:////data/hr.db
+    volumes:
+      - hr-data:/data
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  hr-data:

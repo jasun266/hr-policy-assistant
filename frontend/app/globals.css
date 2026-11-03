@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+/* Design tokens from DESIGN.md. Role names only: components never use raw palette colours. */
+@theme {
+  --color-*: initial; /* Tailwind's palette is removed: zinc/indigo classes won't compile. */
+  --color-canvas: #f6f7f5;   --color-surface: #ffffff;   --color-raised: #eef1ef;
+  --color-ink: #17201c;      --color-muted: #56615c;
+  --color-border: #dde2df;   --color-control: #858f8a;   --color-track: #e3e7e5;
+  --color-accent: #0b6b4f;   --color-accent-hover: #09583f; --color-on-accent: #ffffff;
+  --color-accent-ink: #0a6148; --color-accent-subtle: #e4f1ea;
+  --color-draft-bg: #fbf0d4; --color-draft-ink: #6e4400; --color-draft-border: #b07d1c;
+  --color-pending-bg: #e3edf9; --color-pending-ink: #1b4b85; --color-pending-solid: #4a82c9;
+  --color-approved-bg: #dcf1e4; --color-approved-ink: #0b5139;
+  --color-rejected-bg: #fbe6e4; --color-rejected-ink: #962019;
+  --color-cancelled-bg: #eceeed; --color-cancelled-ink: #4b544f;
+  --color-danger: #b42318;   --color-danger-bg: #fdecea; --color-danger-border: #efb7b0;
+
+  --font-sans: system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Noto Sans Bengali", "Nirmala UI", sans-serif;
+  --font-mono: ui-monospace, "Cascadia Mono", Consolas, "SF Mono", Menlo, monospace;
+  --radius-tag: 4px; --radius-control: 6px; --radius-panel: 8px;
+
+  /* Thinking dots: opacity pulse, staggered per dot with animation-delay. */
+  --animate-think: think 1.2s ease-in-out infinite;
+  --animate-spin: spin 0.8s linear infinite;
+  @keyframes think {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+}
+
+/* Unlayered, so it overrides @theme's layered :root values. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-canvas: #0f1312;   --color-surface: #161b19;   --color-raised: #1f2523;
+    --color-ink: #e6ebe8;      --color-muted: #a1aca7;
+    --color-border: #2a322f;   --color-control: #66726d;   --color-track: #2a322f;
+    --color-accent: #4bbf8b;   --color-accent-hover: #63cc9c; --color-on-accent: #06140e;
+    --color-accent-ink: #6fd1a3; --color-accent-subtle: #173226;
+    --color-draft-bg: #33290f; --color-draft-ink: #f0c46a; --color-draft-border: #8a6a26;
+    --color-pending-bg: #142538; --color-pending-ink: #93bdf0; --color-pending-solid: #5f95d8;
+    --color-approved-bg: #12301f; --color-approved-ink: #74d3a5;
+    --color-rejected-bg: #3a1816; --color-rejected-ink: #f4a29a;
+    --color-cancelled-bg: #262c2a; --color-cancelled-ink: #b7bfbb;
+    --color-danger: #f4a29a;   --color-danger-bg: #2e1614; --color-danger-border: #6e2e28;
+  }
+}
+
+/* Lets native controls (select, scrollbars) follow the OS light/dark setting too. */
+:root { color-scheme: light dark; }
+::selection { background: var(--color-accent-subtle); color: var(--color-ink); }
+html { scrollbar-color: var(--color-control) transparent; }
+
+/* No double-tap zoom delay on controls. */
+@layer base {
+  a, button, select, summary { touch-action: manipulation; }
+}
